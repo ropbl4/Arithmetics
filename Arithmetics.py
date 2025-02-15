@@ -1,6 +1,7 @@
 import flet
 import random
 from time import time, sleep
+import asyncio
 
 RNG_NUMS_FROM = 1
 RNG_NUMS_TO = 99
@@ -20,7 +21,7 @@ def main(page: flet.Page):
     time_start = 0
     stop_timer = True
 
-    def live_timer():
+    async def live_timer():
         while not stop_timer:
             if checkbox_show_live_timer.value:
                 text_field_timer.value = round(time() - time_start, TIMER_PRECISION)
@@ -28,11 +29,13 @@ def main(page: flet.Page):
             elif text_field_timer.value:
                 text_field_timer.value = ''
                 text_field_timer.update()
-            sleep(0.1)
+            # sleep(0.1)
+            await asyncio.sleep(0.1)
 
             # костыль, чтобы этот цикл останавливался при закрытии формы, а не крутился до бесконечности
             # (нужно сменить значение текстового поля; в if-е это и так происходит):
-            text_field_timer.value = ' '
+            # text_field_timer.value = ' '
+            # upd: перевёл функцию live_timer() на async-вариант - заработало без костыля.
 
     # def stop_live_timer_on_close_program(e):
     #     print('---')
@@ -54,7 +57,8 @@ def main(page: flet.Page):
 
             stop_timer = False
             time_start = time()
-            live_timer()
+            # live_timer()
+            page.run_task(live_timer)
         else:
             stop_timer = True
 
