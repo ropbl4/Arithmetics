@@ -92,7 +92,7 @@ def main(page: flet.Page):
     # а позволяла поставить "stop_timer = True", а затем закрываем её вручную через page.window.destroy(),
     # но этот destroy() очень медленно отрабатывает: секунд 6 окно висит только на нём, это позор какой-то.
     # А page.window.close() не закрывает.
-    # page.window.prevent_close = True    # чтобы перед закрытием успеть завершить цикл показа таймера
+    # page.window.prevent_close = True  # чтобы перед закрытием успеть завершить цикл показа таймера
     # page.window.on_event = on_window_event
 
     text_field_question = flet.TextField(
@@ -114,7 +114,8 @@ def main(page: flet.Page):
         # content_padding=10
     )
     checkbox_show_live_timer = flet.Checkbox(
-        label='Показывать ход таймера'
+        label='Показывать ход таймера',
+        value=True
     )
     text_field_timer = flet.TextField(
         text_align=flet.TextAlign.CENTER,
